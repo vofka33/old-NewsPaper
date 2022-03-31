@@ -1,0 +1,79 @@
+Что вы должны сделать в консоли Django?
+
+Создать двух пользователей (с помощью метода User.objects.create_user('username')).
+u1 = User.objects.create_user('User 1')
+u2 = User.objects.create_user('User 2')
+
+Создать два объекта модели Author, связанные с пользователями.
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2) 
+
+Добавить 4 категории в модель Category.
+Category.objects.create(name='politics')
+Category.objects.create(name='economy')
+Category.objects.create(name='society') 
+Category.objects.create(name='science') 
+
+	    Добавить 2 статьи и 1 новость.
+author = Author.objects.get(id=1)
+Post.objects.create(author=author, categoryType='AR', title='Заголовок первой статьи', text='Текст первой статьи')
+Post.objects.create(author=author, categoryType='AR', title='Заголовок второй статьи', text='Текст второй статьи')
+Post.objects.create(author=author, categoryType='NU', title='Заголовок первой новости', text='Текст первой новости')
+
+Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=3))
+	
+Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text ='первый коммент к первой статье')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text ='второй коммент к первой статье')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text ='первый коммент к второй статье')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text ='первый коммент к первой новости')
+
+Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=2).dislike()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=4).dislike()
+Comment.objects.get(id=4).dislike()
+Post.objects.get(id=1).like()
+Post.objects.get(id=1).like()
+Post.objects.get(id=2).dislike()
+
+Обновить рейтинги пользователей.
+a = Author.objects.get(id=1)
+a.update_rating()
+a.ratingAuthor
+
+Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
+b = Author.objects.order_by('-ratingAuthor')[:1]
+
+for i in b:
+	i.ratingAuthor
+	i.authorUser.username
+
+Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+c = Post.objects.order_by('-rating')[:1]
+for i in c:
+	i.rating
+	i.dateCreation
+	i.rating
+	i.title
+	i.author.username
+
+
+
+Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+
+author_posts = self.post_set.all()
+	for p in author_posts:                      
+		self.rating += p.rating * 3
+		p_comments = p.comment_set.all()     
+        for c in p_comments:        
+                for c in p_comments: 
+				self.rating += c.rating
+
