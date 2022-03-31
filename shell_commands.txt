@@ -66,5 +66,9 @@ for i in c:
 	best_AR = i.id
 
 Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
-
 d = Comment.objects.filter(commentPost=best_AR)
+for i in d:
+	i.dateCreation.strftime("%Y-%m-%d")
+	i.commentUser.username
+	i.rating
+	i.text
