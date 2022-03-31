@@ -56,14 +56,15 @@ for i in b:
 	i.authorUser.username
 
 Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
-c = Post.objects.order_by('-rating')[:1]
+c = Post.objects.filter(categoryType='AR').order_by('-rating')[:1]
 for i in c:
-	i.dateCreation
+	i.dateCreation.strftime("%Y-%m-%d")
+	i.author.authorUser.username
 	i.rating
 	i.title
 	i.preview()
-	i.author.authorUser.username
+	best_AR = i.id
 
 Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
 
-author_posts
+d = Comment.objects.filter(commentPost=best_AR)
