@@ -51,7 +51,6 @@ a.ratingAuthor
 
 Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
 b = Author.objects.order_by('-ratingAuthor')[:1]
-
 for i in b:
 	i.ratingAuthor
 	i.authorUser.username
@@ -59,21 +58,12 @@ for i in b:
 Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
 c = Post.objects.order_by('-rating')[:1]
 for i in c:
-	i.rating
 	i.dateCreation
 	i.rating
 	i.title
-	i.author.username
-
-
+	i.preview()
+	i.author.authorUser.username
 
 Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
 
-author_posts = self.post_set.all()
-	for p in author_posts:                      
-		self.rating += p.rating * 3
-		p_comments = p.comment_set.all()     
-        for c in p_comments:        
-                for c in p_comments: 
-				self.rating += c.rating
-
+author_posts
